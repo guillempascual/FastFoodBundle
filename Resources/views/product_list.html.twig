@@ -1,0 +1,21 @@
+{% extends "FastFoodBundle::product_layout.html.twig" %}
+
+{% block title %}List Products{% endblock %}
+{% block head %}
+    {{ parent() }}
+        <style type="text/css">
+                .important { color: #336699; }
+        </style>
+{% endblock %}
+{% block content %}
+        <h1>List Products</h1>
+        <p class="important">
+    <table>
+        {% for product in products%}
+            <tr><td>{{ product.description|e }}</td><td>{{ product.price|e }}</td><td><a href="{{ url('product_edit', {'id': product.id}) }}">Edit</a></td><td><a href="{{ url('product_delete', {'id': product.id}) }}">Delete</a></td></tr>
+        {% endfor %}
+    </table>
+    <a href={{ url('product_add') }}>Add Product</a>
+        </p>
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends "FastFoodBundle::product_layout.html.twig" %}
+
+{% block title %}Show Product{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Show Product</h1>
+    <p class="important">
+        {{ content }}
+    </p>
+{% endblock %}
