@@ -89,4 +89,37 @@ class TicketLine
     {
         $this->product = $product;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->product->getDescription();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return (float) $this->getQuantity() * $this->product->getPrice();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->ticket->getDate();
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetails()
+    {
+        return $this->ticket->getDetails();
+    }
 }

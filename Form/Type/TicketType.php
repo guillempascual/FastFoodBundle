@@ -6,7 +6,7 @@
  * Time: 12:20
  */
 
-namespace FastFoodBundleType\Form\Type;
+namespace FastFoodBundle\Form\Type;
 
 use FastFoodBundle\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;

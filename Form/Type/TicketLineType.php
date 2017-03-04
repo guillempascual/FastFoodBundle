@@ -1,6 +1,6 @@
 <?php
 
-namespace FastFoodBundleType\Form\Type;
+namespace FastFoodBundle\Form\Type;
 
 use FastFoodBundle\Entity\TicketLine;
 use Symfony\Component\Form\AbstractType;
@@ -11,6 +11,8 @@ class TicketLineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('description');
+        $builder->add('price');
         $builder->add('quantity');
     }
 

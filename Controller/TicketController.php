@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\DecimalType;
 use FastFoodBundle\Entity\Product;
 use FastFoodBundle\Entity\Ticket;
 use FastFoodBundle\Entity\TicketLine;
-use FastFoodBundleType\Form\Type\TicketType;
+use FastFoodBundle\Form\Type\TicketType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -73,7 +73,7 @@ class TicketController extends Controller
         $ticketLine1->setQuantity(2);
         $ticketLine1->setProduct($product);
         $ticketLine1->setTicket($ticket);
-        $ticket->getTicketLines()->addTicketLine($ticketLine1);
+        $ticket->getTicketLines()->add($ticketLine1);
 
         // generem una ticketline i afegim a ticket
         $product = $repo->find(2);
@@ -81,7 +81,7 @@ class TicketController extends Controller
         $ticketLine2->setQuantity(3);
         $ticketLine2->setProduct($product);
         $ticketLine2->setTicket($ticket);
-        $ticket->getTicketLines()->addTicketLine($ticketLine1);
+        $ticket->getTicketLines()->add($ticketLine1);
        // end dummy code
 
         $form = $this->createForm(TicketType::class, $ticket);
