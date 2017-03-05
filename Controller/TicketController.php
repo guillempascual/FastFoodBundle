@@ -58,19 +58,17 @@ class TicketController extends Controller
         $this->em = $this->get('doctrine.orm.default_entity_manager');
         $this->ed = $this->get('event_dispatcher');
 
-        // just setup a fresh $task object (remove the dummy data)
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
         $repo = $this->em->getRepository(Product::class);
 
-
-
-        $form = $this->createForm(TicketType::class, $ticket);
+       $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // ... maybe do some form processing, like saving the Ticket and TicketLines objects
+            $this->em->persist($ticket);
+            $this->em->flush();
         }
 
         return $this->render('FastFoodBundle:Ticket:new.html.twig', array(
