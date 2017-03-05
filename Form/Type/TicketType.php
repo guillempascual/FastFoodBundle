@@ -9,7 +9,9 @@
 namespace FastFoodBundle\Form\Type;
 
 use FastFoodBundle\Entity\Ticket;
+use FastFoodBundle\Form\EventListener\addTotalFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -26,6 +28,8 @@ class TicketType extends AbstractType
             'allow_add' => true,
             'by_reference' => false
         ));
+
+        $builder->addEventSubscriber(new addTotalFieldSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

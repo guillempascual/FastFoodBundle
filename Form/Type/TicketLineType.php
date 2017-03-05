@@ -2,18 +2,33 @@
 
 namespace FastFoodBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use FastFoodBundle\Entity\TicketLine;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TicketLineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description');
+        $builder->add('description', EntityType::class, array(
+            'class' => 'FastFoodBundle:Product',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('p')
+                    ->orderBy('p.description', 'ASC');
+            },
+            'choice_label' => function ($product) {
+                return $product->getDescription();
+            }
+        ));
+
         $builder->add('quantity');
         $builder->add('price');
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

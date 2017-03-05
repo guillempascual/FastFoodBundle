@@ -103,6 +103,14 @@ class TicketLine
      */
     public function getPrice()
     {
+        return $this->product->getPrice();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
         return (float) $this->getQuantity() * $this->product->getPrice();
     }
 
