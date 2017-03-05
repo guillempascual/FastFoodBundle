@@ -98,7 +98,6 @@ class TicketController extends Controller
 
     }
 
-
     /**
      * @Route("/ticket/list", name="list_ticket")
      */
