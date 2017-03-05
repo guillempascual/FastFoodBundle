@@ -1,6 +1,6 @@
-{% extends "FastFoodBundle::product_layout.html.twig" %}
+{% extends "FastFoodBundle:Product:layout.html.twig" %}
 
-{% block title %}Show Product{% endblock %}
+{% block title %}Add Product{% endblock %}
 {% block head %}
     {{ parent() }}
     <style type="text/css">
@@ -8,8 +8,9 @@
     </style>
 {% endblock %}
 {% block content %}
-    <h1>Show Product</h1>
+    <h1>Add Product</h1>
     <p class="important">
-        {{ content }}
+        {{ form(form) }}
     </p>
 {% endblock %}
+

@@ -40,7 +40,7 @@ class ProductController extends Controller
         $this->em->remove($product);
         $this->em->flush();
 
-        return $this->render('FastFoodBundle::product_delete.html.twig', [
+        return $this->render('FastFoodBundle:Product:delete.html.twig', [
             'content' => $description,
         ]);
     }
@@ -70,7 +70,7 @@ class ProductController extends Controller
             return $this->redirectToRoute('product_list');
         }
 
-        return $this->render('FastFoodBundle::product_add.html.twig', array(
+        return $this->render('FastFoodBundle:Product:add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -85,7 +85,7 @@ class ProductController extends Controller
         $repo = $this->em->getRepository(Product::class);
         $products = $repo->findAll();
 
-        return $this->render('FastFoodBundle::product_list.html.twig', [
+        return $this->render('FastFoodBundle:Product:list.html.twig', [
             'products' => $products,
         ]);
     }
@@ -114,7 +114,7 @@ class ProductController extends Controller
             return $this->redirectToRoute('product_list');
         }
 
-        return $this->render('FastFoodBundle::product_edit.html.twig', array(
+        return $this->render('FastFoodBundle:Product:edit.html.twig', array(
             'form' => $form->createView(),
         ));
     }

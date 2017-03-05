@@ -93,6 +93,14 @@ class TicketLine
     /**
      * @return mixed
      */
+    public function setDescription($description)
+    {
+        return $this->product->setDescription($description);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDescription()
     {
         return $this->product->getDescription();

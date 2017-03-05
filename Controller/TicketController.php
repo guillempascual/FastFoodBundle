@@ -61,28 +61,9 @@ class TicketController extends Controller
         // just setup a fresh $task object (remove the dummy data)
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
-
         $repo = $this->em->getRepository(Product::class);
 
-        // startd dummy code
-        // per a simular el formulari, de moment empleno els ticket lines de manera artificial
 
-        // generem una ticketline i afegim a ticket
-        $product = $repo->find(1);
-        $ticketLine1 = new TicketLine();
-        $ticketLine1->setQuantity(2);
-        $ticketLine1->setProduct($product);
-        $ticketLine1->setTicket($ticket);
-        $ticket->getTicketLines()->add($ticketLine1);
-
-        // generem una ticketline i afegim a ticket
-        $product = $repo->find(4);
-        $ticketLine2 = new TicketLine();
-        $ticketLine2->setQuantity(3);
-        $ticketLine2->setProduct($product);
-        $ticketLine2->setTicket($ticket);
-        $ticket->getTicketLines()->add($ticketLine2);
-       // end dummy code
 
         $form = $this->createForm(TicketType::class, $ticket);
 
