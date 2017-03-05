@@ -76,12 +76,12 @@ class TicketController extends Controller
         $ticket->getTicketLines()->add($ticketLine1);
 
         // generem una ticketline i afegim a ticket
-        $product = $repo->find(2);
+        $product = $repo->find(4);
         $ticketLine2 = new TicketLine();
         $ticketLine2->setQuantity(3);
         $ticketLine2->setProduct($product);
         $ticketLine2->setTicket($ticket);
-        $ticket->getTicketLines()->add($ticketLine1);
+        $ticket->getTicketLines()->add($ticketLine2);
        // end dummy code
 
         $form = $this->createForm(TicketType::class, $ticket);

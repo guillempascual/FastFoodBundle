@@ -22,7 +22,9 @@ class TicketType extends AbstractType
         $builder->add('date');
 
         $builder->add('ticketlines', CollectionType::class, array(
-            'entry_type' => TicketLineType::class
+            'entry_type' => TicketLineType::class,
+            'allow_add' => true,
+            'by_reference' => false
         ));
     }
 

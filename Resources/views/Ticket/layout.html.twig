@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     {% block head %}
-        <link rel="stylesheet"
-              href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %} - FW17 Fast Food</title>
     {% endblock %}
@@ -13,7 +12,7 @@
 <div id="content">{% block content %}{% endblock %}</div>
 <div id="footer">
     {% block footer %}
-            <a href={{ url('Ticket::list') }}>List All Tickets</a><br/>
+          <a href={{ url('list_ticket') }}>List All Tickets</a><br/>
         &copy; Copyright 2017 by <a href="http://domain.invalid/">Guillem Pascual</a>.
     {% endblock %}
 </div>

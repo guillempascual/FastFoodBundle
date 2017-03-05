@@ -12,8 +12,8 @@ class TicketLineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('description');
-        $builder->add('price');
         $builder->add('quantity');
+        $builder->add('price');
     }
 
     public function configureOptions(OptionsResolver $resolver)

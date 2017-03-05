@@ -47,7 +47,7 @@ class Ticket
 
     /**
      * One Ticket has Many TicketLines.
-     * @ORM\OneToMany(targetEntity="TicketLine", mappedBy="ticket")
+     * @ORM\OneToMany(targetEntity="TicketLine", mappedBy="ticket", cascade={"persist"})
      */
     private $ticketLines;
 
