@@ -37,16 +37,15 @@ class TicketController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
+        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
 
-        $repo = $this->em->getRepository(Ticket::class);
+        $repo = $this->entityManager->getRepository(Ticket::class);
         $ticket = $repo->find($id);
-        $name = $ticket->getName();
-        $this->em->remove($ticket);
-        $this->em->flush();
+        $this->entityManager->remove($ticket);
+        $this->entityManager->flush();
         // replace this example code with whatever you need
-        return $this->render('delete_ticket.html.twig', [
-            'content' => $name,
+        return $this->render('FastFoodBundle:Ticket:delete.html.twig', [
+            'content' => $ticket,
         ]);
     }
 
@@ -55,20 +54,23 @@ class TicketController extends Controller
      */
     public function addAction(Request $request)
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
+        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
         $this->ed = $this->get('event_dispatcher');
 
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
-        $repo = $this->em->getRepository(Product::class);
 
        $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($ticket);
-            $this->em->flush();
+            $ticket = $form->getData();
+
+            $this->entityManager->persist($ticket);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('list_ticket');
         }
 
         return $this->render('FastFoodBundle:Ticket:new.html.twig', array(
@@ -82,60 +84,14 @@ class TicketController extends Controller
      */
     public function listAction()
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
+        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
 
-        $repo = $this->em->getRepository(Ticket::class);
+        $repo = $this->entityManager->getRepository(Ticket::class);
         $tickets = $repo->findAll();
 
         // replace this example code with whatever you need
-        return $this->render('list_ticket.html.twig', [
+        return $this->render('FastFoodBundle:Ticket:list.html.twig', [
             'tickets' => $tickets,
         ]);
-    }
-
-    /**
-     * @Route("/ticket/edit/{id}", name="edit_ticket")
-     */
-    public function editAction(Request $request, $id)
-    {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
-
-        // just setup a fresh $task object (remove the dummy data)
-        $repo = $this->em->getRepository(Ticket::class);
-        $ticket = $repo->find($id);
-
-        $form = $this->createFormBuilder($ticket)
-            ->add('customerCode', TextType::class)
-            ->add('nameCode', TextType::class)
-            ->add('pricePerCopy', MoneyType::class)
-            ->add('pricePerScan', MoneyType::class)
-            ->add('startDate', DateType::class)
-            ->add('endDate', DateType::class)
-            ->add('comment', TextType::class)
-            ->add('active', TextType::class)
-            ->setMethod('POST')
-            ->add('save', SubmitType::class, array('label' => 'Save Ticket'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $ticket = $form->getData();
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            // $em = $this->getDoctrine()->getManager();
-            // $em->persist($task);
-            // $em->flush();
-            $this->em->flush();
-
-            //return $this->redirectToRoute('newSuccess');
-        }
-
-        return $this->render('add_ticket.html.twig', array(
-            'form' => $form->createView(),
-        ));
     }
 }

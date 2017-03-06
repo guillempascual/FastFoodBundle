@@ -20,7 +20,7 @@
                 <table class="ticketlines" data-prototype="{{ form_widget(form.ticketlines.vars.prototype)|e('html_attr') }}">
                     {% for ticketline in form.ticketlines %}
                         <tr>
-                            <td>{{ form_row(ticketline.description) }}</td>
+                            <td>{{ form_row(ticketline.product) }}</td>
                             <td>{{ form_row(ticketline.quantity) }}</td>
                         </tr>
                     {% endfor %}

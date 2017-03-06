@@ -13,7 +13,7 @@ class TicketLineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description', EntityType::class, array(
+       $builder->add('product', EntityType::class, array(
             'class' => 'FastFoodBundle:Product',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('p')
@@ -24,7 +24,6 @@ class TicketLineType extends AbstractType
             }
         ));
         $builder->add('quantity');
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

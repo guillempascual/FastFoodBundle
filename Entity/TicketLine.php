@@ -25,14 +25,14 @@ class TicketLine
 
     /**
      * Many TicketLines have One Ticket.
-     * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="ticketLines")
+     * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="ticketLines", cascade={"persist"})
      * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
      */
     private $ticket;
 
     /**
      * Many TicketLines have One Prodcut.
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ticketLines")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ticketLines", cascade={"persist"})
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
@@ -137,5 +137,21 @@ class TicketLine
     public function getDetails()
     {
         return $this->ticket->getDetails();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

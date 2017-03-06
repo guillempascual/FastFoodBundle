@@ -1,0 +1,21 @@
+{% extends "FastFoodBundle:Ticket:layout.html.twig" %}
+
+{% block title %}List Ticket{% endblock %}
+{% block head %}
+    {{ parent() }}
+        <style type="text/css">
+                .important { color: #336699; }
+        </style>
+{% endblock %}
+{% block content %}
+        <h1>List Tickets</h1>
+        <p class="important">
+    <table>
+        {% for ticket in tickets %}
+            <tr><td>{{ ticket.id|e }}</td><td>{{ ticket.date|date("m/d/Y") }}</td><td><a href="{{ url('delete_ticket', {'id': ticket.id}) }}">Delete</a></td></tr>
+        {% endfor %}
+    </table>
+    <a href={{ url('new_ticket') }}>New Ticket</a>
+        </p>
+{% endblock %}
+

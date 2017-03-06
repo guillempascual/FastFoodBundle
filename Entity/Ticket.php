@@ -31,19 +31,9 @@ class Ticket
     private $details;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    private $total;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $date;
-
-    /**
-     * @ORM\Column(type="string", length=1)
-     */
-    public $finished;
 
     /**
      * One Ticket has Many TicketLines.
