@@ -7,25 +7,25 @@ It's meant to take command of the following cases:
 3. **Managing products** Manager keeps the list of products updated - FINISHED
 
 ##ticket/list
-List all the tickets, and also allows to create new ones as well as delete them 
+Lists all the tickets, and also allows to create new ones as well as delete them 
 
 ##ticket/new
-Create a new ticket, allowing to add as many lines as necessary
+Creates a new ticket, allowing to add as many lines as necessary
 
 ##ticket/delete
-Delete a ticket
+Deletes a ticket
 
 
 ##product/list
-List all the products, and also allows to create new ones as well as delete them 
+Lists all the products, and also allows to create new ones as well as delete them 
 
 ##product/new
-Create a new product
+Creates a new product
 
 ##product/edit
-Edit a product 
+Edits a product 
 
 ##product/delete
-Delete a product 
+Deletes a product 
 
 
