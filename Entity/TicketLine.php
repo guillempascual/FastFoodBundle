@@ -26,14 +26,14 @@ class TicketLine
     /**
      * Many TicketLines have One Ticket.
      * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="ticketLines", cascade={"persist"})
-     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id", nullable = false)
      */
     private $ticket;
 
     /**
      * Many TicketLines have One Prodcut.
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="ticketLines", cascade={"persist"})
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable = false)
      */
     private $product;
 

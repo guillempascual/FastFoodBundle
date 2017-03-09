@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class TicketType extends AbstractType
+class NewTicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,16 +23,9 @@ class TicketType extends AbstractType
         $builder->add('details');
         $builder->add('date');
 
-        $builder->add('ticketlines', CollectionType::class, array(
-            'entry_type' => TicketLineType::class,
-           'allow_add' => true,
-            'prototype' => true,
-            'by_reference' => false,
-        ));
-
         //$builder->addEventSubscriber(new addTotalFieldSubscriber());
         $builder->setMethod('POST')
-            ->add('save', SubmitType::class, array('label' => 'Send Ticket To Kitchen'))
+            ->add('save', SubmitType::class, array('label' => 'Add Lines To Ticket'))
             ->getForm();
     }
 

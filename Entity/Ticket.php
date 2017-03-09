@@ -28,6 +28,11 @@ class Ticket
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $details;
 
     /**
@@ -128,11 +133,29 @@ class Ticket
     public function addTicketLine(TicketLine $ticketLine)
     {
         $this->ticketLines->add($ticketLine);
+        $ticketLine->setTicket($this);
+
     }
 
     public function removeTicketLine(TicketLine $ticketLine)
     {
         $this->ticketLines->remove($ticketLine);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
 }

@@ -37,7 +37,7 @@ class Product
 
     /**
      * One Product has Many TicketLines.
-     * @ORM\OneToMany(targetEntity="TicketLine", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="TicketLine", mappedBy="product" )
      */
     private $ticketLines;
 

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\DecimalType;
 use FastFoodBundle\Entity\Product;
 use FastFoodBundle\Entity\Ticket;
 use FastFoodBundle\Entity\TicketLine;
+use FastFoodBundle\Form\Type\NewTicketType;
 use FastFoodBundle\Form\Type\TicketType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -55,12 +56,41 @@ class TicketController extends Controller
     public function addAction(Request $request)
     {
         $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
-        $this->ed = $this->get('event_dispatcher');
 
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
 
-       $form = $this->createForm(TicketType::class, $ticket);
+        $form = $this->createForm(NewTicketType::class, $ticket);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ticket = $form->getData();
+
+            $this->entityManager->persist($ticket);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('edit_ticket', array('id' => $ticket->getId()));
+        }
+
+        return $this->render('FastFoodBundle:Ticket:new.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    /**
+     * @Route("/ticket/edit/{id}", name="edit_ticket")
+     */
+    public function editAction(Request $request,$id)
+    {
+        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
+        $this->ed = $this->get('event_dispatcher');
+
+        $repo = $this->entityManager->getRepository(Ticket::class);
+        $ticket= $repo->find($id);
+
+        $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
 
@@ -73,7 +103,7 @@ class TicketController extends Controller
             return $this->redirectToRoute('list_ticket');
         }
 
-        return $this->render('FastFoodBundle:Ticket:new.html.twig', array(
+        return $this->render('FastFoodBundle:Ticket:edit.html.twig', array(
             'form' => $form->createView(),
         ));
 
