@@ -60,7 +60,7 @@ class TicketController extends Controller
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
 
-        $form = $this->createForm(NewTicketType::class, $ticket);
+        $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
 
@@ -70,10 +70,10 @@ class TicketController extends Controller
             $this->entityManager->persist($ticket);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('edit_ticket', array('id' => $ticket->getId()));
+            return $this->redirectToRoute('list_ticket', array('id' => $ticket->getId()));
         }
 
-        return $this->render('FastFoodBundle:Ticket:new.html.twig', array(
+        return $this->render('FastFoodBundle:Ticket:edit.html.twig', array(
             'form' => $form->createView(),
         ));
 
