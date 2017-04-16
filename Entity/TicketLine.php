@@ -31,7 +31,7 @@ class TicketLine
     private $ticket;
 
     /**
-     * Many TicketLines have One Prodcut.
+     * Many TicketLines have One Product.
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="ticketLines", cascade={"persist"})
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable = false)
      */

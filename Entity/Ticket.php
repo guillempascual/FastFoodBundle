@@ -134,7 +134,6 @@ class Ticket
     {
         $this->ticketLines->add($ticketLine);
         $ticketLine->setTicket($this);
-
     }
 
     public function removeTicketLine(TicketLine $ticketLine)

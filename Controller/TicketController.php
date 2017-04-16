@@ -3,24 +3,17 @@
 namespace FastFoodBundle\Controller;
 
 use DateTime;
-use Doctrine\DBAL\Types\DecimalType;
-use FastFoodBundle\Entity\Product;
 use FastFoodBundle\Entity\Ticket;
-use FastFoodBundle\Entity\TicketLine;
-use FastFoodBundle\Form\Type\NewTicketType;
+use FastFoodBundle\Event\TicketEvent;
 use FastFoodBundle\Form\Type\TicketType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class TicketController extends Controller
 {
-    private $em;
-    private $ed;
+    private $entityManager;
+    private $eventDispatcher;
 
     /**
      * @Route("/", name="homepage")
@@ -56,6 +49,7 @@ class TicketController extends Controller
     public function addAction(Request $request)
     {
         $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
+        $this->eventDispatcher = $this->get('event_dispatcher');
 
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
@@ -69,6 +63,9 @@ class TicketController extends Controller
 
             $this->entityManager->persist($ticket);
             $this->entityManager->flush();
+
+            $TicketCreatedEvent = new TicketEvent($ticket);
+            $this->eventDispatcher->dispatch('movie', $TicketCreatedEvent);
 
             return $this->redirectToRoute('list_ticket', array('id' => $ticket->getId()));
         }
@@ -85,7 +82,7 @@ class TicketController extends Controller
     public function editAction(Request $request,$id)
     {
         $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
-        $this->ed = $this->get('event_dispatcher');
+        $this->eventDispatcher = $this->get('event_dispatcher');
 
         $repo = $this->entityManager->getRepository(Ticket::class);
         $ticket= $repo->find($id);
