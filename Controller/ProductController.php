@@ -59,9 +59,8 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
-            $productLister = $this->get('ProductAdder');
-            $productLister->execute($product->getDescription(),$product->getPrice());
-
+            $productAdder = $this->get('ProductAdder');
+            $productAdder->execute($product->getDescription(),$product->getPrice());
 
             return $this->redirectToRoute('product_list');
         }

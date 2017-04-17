@@ -36,7 +36,7 @@ class Ticket
     private $details;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 

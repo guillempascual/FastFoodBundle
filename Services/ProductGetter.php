@@ -2,8 +2,6 @@
 
 namespace FastFoodBundle\Services;
 
-use FastFoodBundle\Event\ProductUpdatedEvent;
-
 class ProductGetter extends AbstractProduct
 {
     public function execute($id)

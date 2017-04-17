@@ -31,15 +31,15 @@ class TicketController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
+        $ticketGetter = $this->get('TicketGetter');
+        $ticket = $ticketGetter->execute($id);
 
-        $repo = $this->entityManager->getRepository(Ticket::class);
-        $ticket = $repo->find($id);
-        $this->entityManager->remove($ticket);
-        $this->entityManager->flush();
+        $ticketRemover = $this->get('TicketRemover');
+        $ticketRemover->execute($id);
+
         // replace this example code with whatever you need
         return $this->render('FastFoodBundle:Ticket:delete.html.twig', [
-            'content' => $ticket,
+            'content' => $id,
         ]);
     }
 
@@ -48,24 +48,16 @@ class TicketController extends Controller
      */
     public function addAction(Request $request)
     {
-        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
-        $this->eventDispatcher = $this->get('event_dispatcher');
-
         $ticket = new Ticket();
         $ticket->setDate(new DateTime);
 
         $form = $this->createForm(TicketType::class, $ticket);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ticket = $form->getData();
-
-            $this->entityManager->persist($ticket);
-            $this->entityManager->flush();
-
-            $TicketCreatedEvent = new TicketEvent($ticket);
-            $this->eventDispatcher->dispatch('movie', $TicketCreatedEvent);
+            $ticketAdder = $this->get('TicketAdder');
+            $ticketAdder->execute($ticket->getDetails(),$ticket->getDate(),$ticket->getName());
 
             return $this->redirectToRoute('list_ticket', array('id' => $ticket->getId()));
         }
@@ -81,21 +73,16 @@ class TicketController extends Controller
      */
     public function editAction(Request $request,$id)
     {
-        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
-        $this->eventDispatcher = $this->get('event_dispatcher');
-
-        $repo = $this->entityManager->getRepository(Ticket::class);
-        $ticket= $repo->find($id);
+        $ticketGetter = $this->get('TicketGetter');
+        $ticket= $ticketGetter->execute($id);
 
         $form = $this->createForm(TicketType::class, $ticket);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ticket = $form->getData();
-
-            $this->entityManager->persist($ticket);
-            $this->entityManager->flush();
+            $ticketUpdater = $this->get('TicketUpdater');
+            $ticketUpdater->execute($id,$ticket->getDetails(),$ticket->getDate(), $ticket->getName());
 
             return $this->redirectToRoute('list_ticket');
         }
@@ -103,7 +90,6 @@ class TicketController extends Controller
         return $this->render('FastFoodBundle:Ticket:edit.html.twig', array(
             'form' => $form->createView(),
         ));
-
     }
 
     /**
@@ -111,10 +97,8 @@ class TicketController extends Controller
      */
     public function listAction()
     {
-        $this->entityManager = $this->get('doctrine.orm.default_entity_manager');
-
-        $repo = $this->entityManager->getRepository(Ticket::class);
-        $tickets = $repo->findAll();
+        $ticketLister = $this->get('TicketLister');
+        $tickets = $ticketLister->execute();
 
         // replace this example code with whatever you need
         return $this->render('FastFoodBundle:Ticket:list.html.twig', [
