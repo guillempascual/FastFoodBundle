@@ -6,6 +6,12 @@ It's meant to take command of the following cases:
 2. **Managing tickets** A cooker can list the tickets, select one and mark the items as done - PENDING
 3. **Managing products** Manager keeps the list of products updated - DONE
 
+There are two ways in which order can be sent:
+
+Web
+==
+
+These are the addresses to get the commands
 ##ticket/list
 Lists all the tickets, and also allows to create new ones as well as delete them 
 
@@ -29,3 +35,18 @@ Edits a product
 Deletes a product 
 
 
+Command Line
+=========
+Some limited functionality is allowed via command line.
+
+Commands for Product
+-------
+      fastfood:edit-product <id> <description> <price> 
+      fastfood:list-products: no parameters
+      fastfood:add-film <description> <price>
+      fastfood:remove-film <id>
+
+
+Commands for Ticket
+-------
+      fastfood:list-tickets: no parameters
