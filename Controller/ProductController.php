@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends Controller
 {
-    private $em;
-    private $ed;
 
     /**
      * @Route("/product", name="homepage")
@@ -32,13 +30,12 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
-
-        $repo = $this->em->getRepository(Product::class);
-        $product = $repo->find($id);
+        $productGetter = $this->get('ProductGetter');
+        $product = $productGetter->execute($id);
         $description = $product->getDescription();
-        $this->em->remove($product);
-        $this->em->flush();
+
+        $productRemover = $this->get('ProductRemover');
+        $productRemover->execute($id);
 
         return $this->render('FastFoodBundle:Product:delete.html.twig', [
             'content' => $description,
@@ -50,9 +47,6 @@ class ProductController extends Controller
      */
     public function addAction(Request $request)
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
-        $this->ed = $this->get('event_dispatcher');
-
         $product = new Product();
         $form = $this->createFormBuilder($product)
             ->add('description', TextType::class)
@@ -65,8 +59,10 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
-            $this->em->persist($product);
-            $this->em->flush();
+            $productLister = $this->get('ProductAdder');
+            $productLister->execute($product->getDescription(),$product->getPrice());
+
+
             return $this->redirectToRoute('product_list');
         }
 
@@ -80,10 +76,8 @@ class ProductController extends Controller
      */
     public function listAction()
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
-
-        $repo = $this->em->getRepository(Product::class);
-        $products = $repo->findAll();
+        $productLister = $this->get('ProductLister');
+        $products = $productLister->execute();
 
         return $this->render('FastFoodBundle:Product:list.html.twig', [
             'products' => $products,
@@ -95,10 +89,8 @@ class ProductController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $this->em = $this->get('doctrine.orm.default_entity_manager');
-
-        $repo = $this->em->getRepository(Product::class);
-        $product = $repo->find($id);
+        $productGetter = $this->get('ProductGetter');
+        $product = $productGetter->execute($id);
 
         $form = $this->createFormBuilder($product)
             ->add('description', TextType::class)
@@ -110,7 +102,9 @@ class ProductController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
+            $product = $form->getData();
+            $productUpdater = $this->get('ProductUpdater');
+            $productUpdater->execute($id,$product->getDescription(),$product->getPrice());
             return $this->redirectToRoute('product_list');
         }
 
